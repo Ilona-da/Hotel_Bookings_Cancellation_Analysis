@@ -1,5 +1,4 @@
 -- Create empty table with proper data types
-
 CREATE TABLE reservations_refined (
     booking_id NVARCHAR(20) PRIMARY KEY,
     no_of_adults TINYINT,
@@ -23,7 +22,6 @@ CREATE TABLE reservations_refined (
 );
 
 -- Insert data from staging table with initial cleaning and data type conversion
-
 INSERT INTO reservations_refined
 SELECT
     booking_id,
@@ -48,7 +46,6 @@ SELECT
 FROM reservations_staging;
 
 -- Check for NULL values
-
 SELECT
   COUNT(*) AS total_records,
   SUM(CASE WHEN booking_id                   IS NULL THEN 1 ELSE 0 END) AS null_booking_id,
@@ -72,6 +69,6 @@ SELECT
   SUM(CASE WHEN booking_status               IS NULL THEN 1 ELSE 0 END) AS null_booking_status
 FROM reservations_refined;
 
--- Checking booking_id before setting primary key
+-- Checking booking_id uniqness before setting primary key
 SELECT COUNT(DISTINCT booking_id) AS distinct_bookings, COUNT(*) AS total_bookings
 FROM reservations_refined;

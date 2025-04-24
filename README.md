@@ -18,7 +18,7 @@ I created a new table (`reservations_refined`) and populated it using SQL `INSER
 - Basic trimming and conversion of categorical and boolean values
 - Casting strings to numeric formats where needed
 
-Surprisingly, the dataset contained **no NULL values** or obvious dirty data — making the cleaning process fairly light in this case.
+Surprisingly, the dataset contained **no NULL values** or obvious dirty data - making the cleaning process fairly light in this case.
 
 This phase focused on:
 - Practicing good SQL structure

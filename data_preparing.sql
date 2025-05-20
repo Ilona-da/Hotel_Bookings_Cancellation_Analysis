@@ -1,3 +1,15 @@
+/*
+  This script imports raw data, performs initial data cleaning, 
+  checks for duplicates, missing and suspicious values, and creates a refined table.
+  Later used for exploratory data analysis (EDA).
+*/
+
+USE hotel_reservations
+
+-- =====================================================
+-- STEP 1: Create Refined Table and Import Data
+-- =====================================================
+
 -- Create empty table with proper data types
 CREATE TABLE reservations_refined (
     booking_id NVARCHAR(20) PRIMARY KEY,
@@ -35,6 +47,7 @@ SELECT
     TRY_CAST(lead_time_days AS SMALLINT),
     TRY_CAST(arrival_year AS SMALLINT),
     TRY_CAST(arrival_month AS TINYINT),
+    -- Rename arrival_date to arrival_day when inserting into refined table
     TRY_CAST(arrival_date AS TINYINT),
     market_segment_type,
     CASE LTRIM(RTRIM(repeated_guest)) WHEN '1' THEN 1 WHEN '0' THEN 0 ELSE NULL END,
@@ -45,7 +58,15 @@ SELECT
     booking_status
 FROM reservations_staging;
 
--- Check for NULL values
+-- Check booking_id uniqness before setting primary key
+SELECT COUNT(DISTINCT booking_id) AS distinct_bookings, COUNT(*) AS total_bookings
+FROM reservations_refined;
+
+-- =====================================================
+-- STEP 2: Data Cleaning
+-- =====================================================
+
+-- Check for empty values
 SELECT
   COUNT(*) AS total_records,
   SUM(CASE WHEN booking_id                   IS NULL THEN 1 ELSE 0 END) AS null_booking_id,
@@ -69,6 +90,76 @@ SELECT
   SUM(CASE WHEN booking_status               IS NULL THEN 1 ELSE 0 END) AS null_booking_status
 FROM reservations_refined;
 
--- Checking booking_id uniqness before setting primary key
-SELECT COUNT(DISTINCT booking_id) AS distinct_bookings, COUNT(*) AS total_bookings
+SELECT COUNT(*) FROM reservations_refined
+
+-- Check for duplicates
+SELECT booking_id, COUNT(*) AS cnt
+FROM reservations_refined
+GROUP BY booking_id
+HAVING COUNT(*) > 1
+
+-- Check for extreme values
+SELECT 
+  MIN(no_of_adults) AS min_adults, MAX(no_of_adults) AS max_adults,
+  MIN(no_of_children) AS min_children, MAX(no_of_children) AS max_children,
+  MIN(no_of_weekend_nights) AS min_weekend_nights, MAX(no_of_weekend_nights) AS max_weekend_nights,
+  MIN(lead_time_days) AS min_lead_time_d, MAX(lead_time_days) AS max_lead_time_d,
+  MIN(arrival_month) AS min_arrival_m, MAX(arrival_month) AS max_arrival_m,
+  MIN(arrival_year) AS min_arrival_y, MAX(arrival_year) AS max_arrival_y,
+  MIN(arrival_day) AS min_arrival_d, MAX(arrival_day) AS max_arrival_d,
+  MIN(no_of_previous_cancellations) AS min_of_cancel, MAX(no_of_previous_cancellations) AS max_of_cancel,
+  MIN(no_of_previous_booking_not_canceled) AS min_of_no_cancel, MAX(no_of_previous_booking_not_canceled) AS max_of_no_cancel,
+  MIN(avg_price_per_room) AS min_avg_price, MAX(avg_price_per_room) AS max_avg_price,
+  MIN(no_of_special_requests) AS min_special_req, MAX(no_of_special_requests) AS max_special_req,
+  MIN(no_of_week_nights) AS min_week_nights, MAX(no_of_week_nights) AS max_week_nights
+FROM reservations_refined
+
+-- Check for suspicious or implausible values
+SELECT 
+  SUM(CASE WHEN no_of_adults = 0 THEN 1 ELSE 0 END) AS cnt_zero_adults,
+  SUM(CASE WHEN no_of_children > 0 AND no_of_adults = 0 THEN 1 ELSE 0 END) AS cnt_children_without_adults,
+  SUM(CASE WHEN no_of_week_nights = 0 AND no_of_weekend_nights = 0 THEN 1 ELSE 0 END) AS cnt_zero_total_nights,
+  SUM(CASE WHEN avg_price_per_room = 0 THEN 1 ELSE 0 END) AS cnt_zero_price,
+  SUM(CASE WHEN lead_time_days > 365 THEN 1 ELSE 0 END) AS cnt_long_lead_time_days
 FROM reservations_refined;
+
+-- Check how many records to remove (139 and 78 rows)
+SELECT * FROM reservations_refined WHERE no_of_adults = 0
+SELECT * FROM reservations_refined WHERE no_of_week_nights = 0 AND no_of_weekend_nights = 0
+
+-- Check for market segment (around 65% of rows are Complementary market segment, the rest is Online) 
+-- > those records will stay
+SELECT * FROM reservations_refined WHERE avg_price_per_room = 0
+
+-- Check booking status for rows with very long lead time (95% is canceled) 
+SELECT count(*)
+FROM reservations_refined
+WHERE lead_time_days > 365 AND booking_status = 'Canceled'
+
+-- Create table copy to save data before deleting records
+SELECT * INTO reservations_cleaned FROM reservations_refined;
+
+-- Check once again how many records to remove
+SELECT COUNT(*) AS to_be_removed
+FROM reservations_cleaned
+WHERE no_of_adults = 0
+   OR (no_of_week_nights = 0 AND no_of_weekend_nights = 0);
+
+-- Remove chosen records
+DELETE FROM reservations_cleaned
+WHERE no_of_adults = 0
+   OR (no_of_week_nights = 0 AND no_of_weekend_nights = 0);
+
+-- Review full cleaned table (remove in production)
+SELECT * FROM reservations_cleaned
+
+-- Standarize the data (only for debugging, consider limiting columns in production)
+SELECT * FROM reservations_cleaned
+SELECT DISTINCT type_of_meal_plan FROM reservations_cleaned
+SELECT DISTINCT room_type_reserved FROM reservations_cleaned
+SELECT DISTINCT market_segment_type FROM reservations_cleaned
+SELECT DISTINCT booking_status FROM reservations_cleaned
+
+UPDATE reservations_cleaned
+SET room_type_reserved = REPLACE(room_type_reserved, '_', ' '),
+	booking_status = REPLACE(booking_status, '_', ' ')

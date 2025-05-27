@@ -163,3 +163,57 @@ SELECT DISTINCT booking_status FROM reservations_cleaned
 UPDATE reservations_cleaned
 SET room_type_reserved = REPLACE(room_type_reserved, '_', ' '),
 	booking_status = REPLACE(booking_status, '_', ' ')
+
+-- Create column with arrival_data
+SELECT
+  *,
+  CAST(CONCAT(arrival_year, '-', arrival_month, '-', arrival_day) AS DATE) AS arrival_date,
+  DATEADD(DAY, -lead_time, CAST(CONCAT(arrival_year, '-', arrival_month, '-', arrival_day) AS DATE)) AS booking_date
+FROM hotel_reservations;
+
+------------------------------------------------------------------------------------------------
+-- EXPLORATORY DATA ANALYSIS
+-- ogólnie 11885 rezerwacji ma taki status (około 1/3!), czyli jest tu więcej do zbadania
+SELECT count(*) 
+FROM reservations_refined
+WHERE booking_status = 'Canceled'
+
+SELECT * FROM reservations_cleaned
+
+-- 1) Time analysis
+
+-- Attempt to create arrival_date (attempt - gdyż to nie działa, dlatego rokmniniam dalej, czy jest rok przystępny może)
+SELECT
+  *,
+  CAST(CONCAT(arrival_year, '-', arrival_month, '-', arrival_day) AS DATE) AS arrival_date
+FROM reservations_cleaned;
+
+SELECT DISTINCT arrival_year, arrival_month, arrival_day FROM reservations_cleaned
+ORDER BY arrival_year, arrival_month, arrival_day
+
+-- problemem okazuje się luty, który w 2018 (który nie był rokiem przystęnym) ma 29 dni. 
+-- Okazało się, że na skutek błędu, dane w bazie danych są przesunięte o 2 lata do przodu
+
+SELECT
+  *,
+  arrival_year - 1 AS corrected_arrival_year
+FROM reservations_cleaned;
+
+UPDATE reservations_cleaned
+SET arrival_year = arrival_year - 1;
+
+SELECT DISTINCT arrival_year
+FROM reservations_cleaned
+
+SELECT
+  *,
+  CAST(CONCAT(arrival_year, '-', arrival_month, '-', arrival_day) AS DATE) AS arrival_date
+FROM reservations_cleaned;
+
+ALTER TABLE reservations_cleaned
+ADD arrival_date DATE;
+
+UPDATE reservations_cleaned
+  SET arrival_date = CAST(CONCAT(arrival_year, '-', arrival_month, '-', arrival_day) AS DATE)
+
+SELECT TOP 10 * FROM reservations_cleaned

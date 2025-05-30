@@ -183,7 +183,7 @@ SELECT DISTINCT booking_status FROM reservations_cleaned;
 UPDATE reservations_cleaned
 SET 
   room_type_reserved = REPLACE(room_type_reserved, '_', ' '),
-	booking_status = REPLACE(booking_status, '_', ' ');
+  booking_status = REPLACE(booking_status, '_', ' ');
 
 /* Create column with arrival_data */
 SELECT

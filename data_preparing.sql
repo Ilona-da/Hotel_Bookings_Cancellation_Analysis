@@ -52,7 +52,7 @@ SELECT
     market_segment_type,
     CASE LTRIM(RTRIM(repeated_guest)) WHEN '1' THEN 1 WHEN '0' THEN 0 ELSE NULL END,
     TRY_CAST(no_of_previous_cancellations AS TINYINT),
-    TRY_CAST(no_of_previous_bookings_not_canceled AS TINYINT),
+    TRY_CAST(no_of_previous_booking_not_canceled AS TINYINT),
     TRY_CAST(avg_price_per_room AS DECIMAL(10,2)),
     TRY_CAST(no_of_special_requests AS TINYINT),
     booking_status

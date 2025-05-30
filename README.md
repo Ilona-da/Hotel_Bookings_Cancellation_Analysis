@@ -30,5 +30,5 @@ This phase focused on:
 
 This project will now move into two major phases:
 
-- **Exploratory Data Analysis (EDA)** — directly in SQL (e.g. using window functions, aggregations, and filtering)
+- **Exploratory Data Analysis (EDA)** — directly in SQL
 - **Data Visualization** — using Power BI to create interactive dashboards and extract business insights

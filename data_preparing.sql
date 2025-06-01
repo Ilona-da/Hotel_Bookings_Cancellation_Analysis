@@ -4,7 +4,7 @@
   Later used for exploratory data analysis (EDA).
 */
 
-USE hotel_reservations
+USE hotel_reservations;
 
 /* 
 =====================================================
@@ -108,7 +108,7 @@ HAVING COUNT(*) > 1;
 
 /* Check for extreme values */
 SELECT 
-  ,MIN(no_of_adults) AS min_adults, MAX(no_of_adults) AS max_adults
+  MIN(no_of_adults) AS min_adults, MAX(no_of_adults) AS max_adults
   ,MIN(no_of_children) AS min_children, MAX(no_of_children) AS max_children
   ,MIN(no_of_weekend_nights) AS min_weekend_nights, MAX(no_of_weekend_nights) AS max_weekend_nights
   ,MIN(lead_time_days) AS min_lead_time_d, MAX(lead_time_days) AS max_lead_time_d

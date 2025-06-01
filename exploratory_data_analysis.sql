@@ -14,11 +14,18 @@ STEP 1: Time analysis
 */
 
 /* Attempt to create arrival_date */
-SELECT DATEFROMPARTS(arrival_year, arrival_month, arrival_day) AS arrival_date
+SELECT 
+  DATEFROMPARTS(
+      arrival_year
+      ,arrival_month
+      ,arrival_day) AS arrival_date
 FROM reservations_cleaned;
 
 /* Check because of an error shown */
-SELECT DISTINCT arrival_year, arrival_month, arrival_day 
+SELECT 
+  DISTINCT arrival_year
+  ,arrival_month
+  ,arrival_day 
 FROM reservations_cleaned
 ORDER BY 
   arrival_year
@@ -40,7 +47,12 @@ ALTER TABLE reservations_cleaned
 ADD arrival_date DATE;
 
 UPDATE reservations_cleaned
-SET arrival_date = DATEFROMPARTS(arrival_year, arrival_month, arrival_day);
+SET 
+  arrival_date = DATEFROMPARTS(
+    arrival_year
+    ,arrival_month
+    ,arrival_day
+  );
 
 /*  Check if table update worked */
 SELECT TOP 10 * 
@@ -55,7 +67,7 @@ FROM reservations_cleaned
 GROUP BY 
   arrival_year 
   ,arrival_month
-ORDER BY arrival_year DESC
+ORDER BY arrival_year DESC;
 
 SELECT 
   DATENAME(WEEKDAY, arrival_date) AS arrival_day_name
@@ -117,7 +129,7 @@ FROM reservations_cleaned
 GROUP BY 
   booking_year
   ,booking_month
-ORDER BY cnt_reservations DESC
+ORDER BY cnt_reservations DESC;
 
 SELECT 
   DATENAME(WEEKDAY, booking_date) AS booking_day_name
@@ -446,7 +458,8 @@ SELECT
   ,arrival_month
   ,COUNT(*) AS cnt_reservations
   ,SUM(CASE WHEN booking_status = 'Canceled' THEN 1 ELSE 0 END) AS cnt_cancelations
-  ,CAST(100.0 * SUM(CASE WHEN booking_status = 'Canceled' THEN 1 ELSE 0 END) / COUNT(*) AS DECIMAL(5, 2)) AS pct_cancelations
+  ,CAST(100.0 * SUM(
+    CASE WHEN booking_status = 'Canceled' THEN 1 ELSE 0 END) / COUNT(*) AS DECIMAL(5, 2)) AS pct_cancelations
 FROM reservations_cleaned
 GROUP BY 
   arrival_year

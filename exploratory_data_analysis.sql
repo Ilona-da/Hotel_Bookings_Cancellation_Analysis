@@ -16,9 +16,9 @@ STEP 1: Time analysis
 /* Attempt to create arrival_date */
 SELECT 
   DATEFROMPARTS(
-      arrival_year
-      ,arrival_month
-      ,arrival_day) AS arrival_date
+  arrival_year
+  ,arrival_month
+  ,arrival_day) AS arrival_date
 FROM reservations_cleaned;
 
 /* Check because of an error shown */
@@ -49,10 +49,10 @@ ADD arrival_date DATE;
 UPDATE reservations_cleaned
 SET 
   arrival_date = DATEFROMPARTS(
-    arrival_year
-    ,arrival_month
-    ,arrival_day
-  );
+  arrival_year
+  ,arrival_month
+  ,arrival_day
+);
 
 /*  Check if table update worked */
 SELECT TOP 10 * 

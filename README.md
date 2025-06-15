@@ -4,6 +4,7 @@
 
 This project focuses on data preparation, exploratory data analysis (EDA), and visualization based on a hotel reservations dataset sourced from Kaggle. The goal is to simulate a real-world business analysis scenario, starting with raw data and moving through structured cleaning and insights generation using SQL and Power BI.
 
+The analysis process went through several stages: from data mining, through identifying the reasons for bookings cancellation, to drawing operational conclusions and proposing specific actions to prevent this cancellations. 
 
 ## Data Preparation (SQL)
 

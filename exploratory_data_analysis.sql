@@ -1,10 +1,5 @@
 /*
-  During the SQL-based exploratory analysis below, I focused on understanding 
-  temporal trends, guest behaviour and segment characteristics. 
-  This initial process helped uncover some patterns which were later 
-  translated into focused visual analyses in Power BI. 
-  Some directions emerged only during visual exploration and were added iteratively 
-  as new insights became evident.
+  This script performs initial exploratory data analysis.
 */
 
 SELECT COUNT(*) 
@@ -86,15 +81,9 @@ FROM reservations_cleaned
 GROUP BY arrival_season;
 
 /* Average length of stay by month of arrival */
-ALTER TABLE reservations_cleaned 
-ADD length_of_stay SMALLINT, length_of_stay_range VARCHAR(20);
-
-UPDATE reservations_cleaned
-SET length_of_stay = no_of_week_nights + no_of_weekend_nights;
-
 SELECT 
 	arrival_month
-	, AVG(length_of_stay) AS avg_stay_days
+	, AVG(no_of_week_nights + no_of_weekend_nights) AS avg_stay_days
 FROM reservations_cleaned
 GROUP BY arrival_month
 ORDER BY arrival_month;
@@ -168,9 +157,9 @@ STEP 2: Client's segments
 /* What customer segment generates the most income? */
 SELECT 
 	market_segment_type
-	, CAST(SUM(length_of_stay * avg_price_per_room) AS DECIMAL(10, 2)) AS income
-	, CAST(SUM(length_of_stay * avg_price_per_room) * 100.0 / 
-		SUM(SUM(length_of_stay * avg_price_per_room)) OVER() AS DECIMAL(5,2)) AS income_pct
+	, CAST(SUM((no_of_week_nights + no_of_weekend_nights) * avg_price_per_room) AS DECIMAL(10, 2)) AS income
+	, CAST(SUM((no_of_week_nights + no_of_weekend_nights) * avg_price_per_room) * 100.0 / 
+		SUM(SUM((no_of_week_nights + no_of_weekend_nights) * avg_price_per_room)) OVER() AS DECIMAL(5,2)) AS income_pct
 FROM reservations_cleaned
 GROUP BY market_segment_type
 ORDER BY income DESC;
@@ -209,7 +198,7 @@ STEP 3: Guest behaviour
 ===================================================== */
 
 /* What is the average length of stay of guests? */
-SELECT AVG(length_of_stay) AS avg_stay_length
+SELECT AVG(no_of_week_nights + no_of_weekend_nights) AS avg_stay_length
 FROM reservations_cleaned;
 
 /* How many guests are returning to the hotel? */
@@ -362,7 +351,7 @@ ORDER BY no_of_special_requests;
 /* Special requests vs average revenue (for completed reservations only) */
 SELECT 
 	no_of_special_requests
-	, ROUND(AVG(avg_price_per_room * length_of_stay), 2) AS avg_revenue
+	, ROUND(AVG(avg_price_per_room * (no_of_week_nights + no_of_weekend_nights)), 2) AS avg_revenue
 FROM reservations_cleaned
 WHERE booking_status = 'Not Canceled'
 GROUP BY no_of_special_requests
@@ -399,7 +388,7 @@ ORDER BY pct_cancellations DESC;
 SELECT 
 	market_segment_type
 	, ROUND(AVG(lead_time_days), 1) AS avg_lead_time
-	, ROUND(AVG(avg_price_per_room * length_of_stay), 2) AS avg_revenue
+	, ROUND(AVG(avg_price_per_room * (no_of_week_nights + no_of_weekend_nights)), 2) AS avg_revenue
 FROM reservations_cleaned
 WHERE booking_status = 'Not Canceled'
 GROUP BY market_segment_type
@@ -408,7 +397,7 @@ ORDER BY avg_revenue DESC;
 /* Market segment: average number of nights and special requests */
 SELECT 
 	market_segment_type
-	, ROUND(AVG(length_of_stay), 1) AS avg_nights
+	, ROUND(AVG(no_of_week_nights + no_of_weekend_nights), 1) AS avg_nights
 	, ROUND(AVG(no_of_special_requests), 1) AS avg_special_requests
 FROM reservations_cleaned
 GROUP BY market_segment_type
@@ -526,10 +515,16 @@ Conclusions:
 */
 
 /* =====================================================
-STEP 9: Feature engineering – segmentation bins
+STEP 9: Feature engineering – segmentation bins + helper columns
 ===================================================== */
 
-/* Length of stay range */
+/* Length of stay (raw + range) */
+ALTER TABLE reservations_cleaned 
+ADD length_of_stay SMALLINT, length_of_stay_range VARCHAR(20);
+
+UPDATE reservations_cleaned
+SET length_of_stay = no_of_week_nights + no_of_weekend_nights;
+
 UPDATE reservations_cleaned
 SET length_of_stay_range = 
 	CASE 
@@ -553,7 +548,7 @@ SET length_of_stay_range_sort =
 		ELSE 5
 	END;
 
-/* Lead time range */
+/* Lead time (range) */
 ALTER TABLE reservations_cleaned 
 ADD lead_time_range VARCHAR(20);
 
@@ -614,7 +609,7 @@ SET no_of_guests_range_sort =
 		ELSE 5
 	END;
 
-/* Price range bins */
+/* Price bins */
 ALTER TABLE reservations_cleaned 
 ADD avg_price_per_room_range VARCHAR(20);
 
@@ -637,4 +632,41 @@ SET avg_price_per_room_range_sort =
 	CASE 
 		WHEN avg_price_per_room >= 550 THEN 99
 		ELSE FLOOR(avg_price_per_room / 25.0)
+	END;
+
+ALTER TABLE reservations_cleaned 
+ADD with_children BIT;
+
+UPDATE reservations_cleaned
+SET with_children = 
+	CASE
+		WHEN no_of_children = 0 THEN 0
+		ELSE 1
+	END;
+
+ALTER TABLE reservations_cleaned
+ADD type_of_meal_plan_sort TINYINT;
+
+UPDATE reservations_cleaned
+SET type_of_meal_plan_sort =
+	CASE 
+		WHEN type_of_meal_plan = 'Meal Plan 1' THEN 1
+		WHEN type_of_meal_plan = 'Meal Plan 2' THEN 2
+		WHEN type_of_meal_plan = 'Meal Plan 3' THEN 3
+		ELSE 4
+	END;
+
+ALTER TABLE reservations_cleaned
+ADD room_type_reserved_sort TINYINT;
+
+UPDATE reservations_cleaned
+SET room_type_reserved_sort =
+	CASE 
+		WHEN room_type_reserved = 'Room Type 1' THEN 1
+		WHEN room_type_reserved = 'Room Type 2' THEN 2
+		WHEN room_type_reserved = 'Room Type 3' THEN 3
+		WHEN room_type_reserved = 'Room Type 4' THEN 4
+		WHEN room_type_reserved = 'Room Type 5' THEN 5
+		WHEN room_type_reserved = 'Room Type 6' THEN 6
+		WHEN room_type_reserved = 'Room Type 7' THEN 7
 	END;

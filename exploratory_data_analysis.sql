@@ -634,6 +634,7 @@ SET avg_price_per_room_range_sort =
 		ELSE FLOOR(avg_price_per_room / 25.0)
 	END;
 
+/* Children status helper column */
 ALTER TABLE reservations_cleaned 
 ADD with_children BIT;
 
@@ -644,6 +645,7 @@ SET with_children =
 		ELSE 1
 	END;
 
+/* Sorting helper columns for meal type and room type reserved */
 ALTER TABLE reservations_cleaned
 ADD type_of_meal_plan_sort TINYINT;
 

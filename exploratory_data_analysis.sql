@@ -673,27 +673,3 @@ SET room_type_reserved_sort =
 		WHEN room_type_reserved = 'Room Type 7' THEN 7
 	END;
 
-/* Helper bin column for Guest Trust Score */
-ALTER TABLE reservations_cleaned
-ADD no_of_previous_cancellations_range VARCHAR(20);
-
-UPDATE reservations_cleaned
-SET no_of_previous_cancellations_range =
-	CASE 
-		WHEN no_of_previous_cancellations = 0 THEN 'Never'
-		WHEN no_of_previous_cancellations = 1 THEN 'Once'
-		WHEN no_of_previous_cancellations = 2 THEN 'Twice'
-		WHEN no_of_previous_cancellations = 3 THEN 'Often'
-	END;
-
-ALTER TABLE reservations_cleaned
-ADD no_of_previous_cancellations_sort TINYINT;
-
-UPDATE reservations_cleaned
-SET no_of_previous_cancellations_sort =
-	CASE 
-		WHEN no_of_previous_cancellations_range = 'Never' THEN 1
-		WHEN no_of_previous_cancellations_range = 'Once' THEN 2
-		WHEN no_of_previous_cancellations_range = 'Twice' THEN 3
-		WHEN no_of_previous_cancellations_range = 'Often' THEN 4
-	END;

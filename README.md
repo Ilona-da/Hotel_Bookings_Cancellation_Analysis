@@ -26,10 +26,43 @@ This phase focused on:
 - Making the dataset easier to query and analyze in the next steps
 - Preparing it for smooth integration with Power BI
 
+### 3. Exploratory Data Analysis
 
-## Next Steps
+The EDA phase was organized into thematic steps to simulate a structured analytics workflow. Already at this stage, initial insights began to emerge - including patterns in seasonality, guest behavior, pricing, and cancellations. Each step focused on a specific area of the dataset to uncover trends, spot inconsistencies, and prepare the data for deeper analysis and visualization in Power BI:
 
-This project will now move into two major phases:
+- **Time analysis** - Created accurate arrival and booking dates, handled data inconsistencies, added weekday, month, and season labels to support time-based insights.
 
-- **Exploratory Data Analysis (EDA)** — directly in SQL
-- **Data Visualization** — using Power BI to create interactive dashboards and extract business insights
+- **Customer segmentation** - Analyzed market segments, room types, and meal plans to understand booking patterns across different client groups.
+
+- **Guest behavior** - Explored variables such as length of stay, return visits, and number of special requests.
+
+- **Revenue and pricing** - Examined room rates across segments, seasons, and room types.
+
+- **Operational metrics** – Looked into parking demand, family size, and guest composition.
+
+- **Lead time dynamics** - Segmented lead times into ranges and prepared cancellation risk indicators.
+
+- **Operational risk factors** - Connected booking attributes with cancellation likelihood to identify risk areas.
+
+- **Cancellation patterns** - Quantified cancellation rates over time and across segments, prices, and guest types.
+
+- **Feature engineering** - Created bins and helper columns (e.g. price bands, stay length, guest count) to support flexible segmentation and clear visuals in Power BI.
+
+### 4. Dashboard & Final Insights (Power BI)
+
+The refined dataset was connected to Power BI to create a clear, interactive dashboard structured into six thematic pages:
+
+- **OVERVIEW** - A high-level summary of bookings, cancellations, revenue loss, and recovery.
+
+- **TIMELINE** - Time-based trends in arrivals, bookings, and cancellations.
+
+- **GUESTS** - Guest segmentation, behavior patterns, and cancellation likelihood across groups.
+
+- **SERVICES** - Preferences regarding room types, meal plans, and add-ons like parking or special requests.
+
+- **FINANCES** - Analysis of room pricing, revenue drivers, and financial impact of cancellations.
+
+- **INSIGHTS** - key insights with recommendations on how to possibly reduce cancellations and recover value.
+
+The final page brings together all findings and translates them into clear operational suggestions, highlighting which guest profiles, booking conditions, and pricing strategies are most associated with cancellations and how they can be better managed.
+

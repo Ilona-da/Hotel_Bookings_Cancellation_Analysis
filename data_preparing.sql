@@ -95,9 +95,7 @@ FROM reservations_refined;
 SELECT COUNT(*) FROM reservations_refined;
 
 /* Check for duplicates */
-SELECT 
-  booking_id
-  , COUNT(*) AS cnt
+SELECT booking_id, COUNT(*) AS cnt
 FROM reservations_refined
 GROUP BY booking_id
 HAVING COUNT(*) > 1;

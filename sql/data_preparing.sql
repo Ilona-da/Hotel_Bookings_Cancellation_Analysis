@@ -185,3 +185,4 @@ SELECT
   , CAST(CONCAT(arrival_year, '-', arrival_month, '-', arrival_day) AS DATE) AS arrival_date
   , DATEADD(DAY, -lead_time, CAST(CONCAT(arrival_year, '-', arrival_month, '-', arrival_day) AS DATE)) AS booking_date
 FROM hotel_reservations;
+

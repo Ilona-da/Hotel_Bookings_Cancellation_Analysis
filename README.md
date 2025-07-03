@@ -1,4 +1,4 @@
-# Hotel Cancellations Trends Analysis (SQL + Power BI)
+# Hotel Cancellations Trends Analysis
 
 ## Project Overview
 This project focuses on data preparation, exploratory data analysis (EDA), and visualization based on a hotel reservations dataset sourced from Kaggle. The goal is to simulate a real-world business analysis scenario, starting with raw data and moving through structured cleaning and insights generation using SQL and Power BI.

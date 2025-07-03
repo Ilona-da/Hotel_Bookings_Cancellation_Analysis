@@ -34,7 +34,7 @@ The EDA phase was organized into thematic steps to simulate a structured analyti
 
 - **Revenue and pricing** - Examined room rates across segments, seasons, and room types.
 
-- **Operational metrics** – Looked into parking demand, family size, and guest composition.
+- **Operational metrics** - Looked into parking demand, family size, and guest composition.
 
 - **Lead time dynamics** - Segmented lead times into ranges and prepared cancellation risk indicators.
 
@@ -62,16 +62,18 @@ The refined dataset was connected to Power BI to create a clear, interactive das
 The final page brings together all findings and translates them into clear operational suggestions, highlighting which guest profiles, booking conditions, and pricing strategies are most associated with cancellations and how they can be better managed.
 
 ## Tools Used
-- **Microsoft SQL Server** – Data cleaning and EDA
-- **Power BI** (Desktop version) – Data visualization and dashboard creation
+- **Microsoft SQL Server** - Data cleaning and EDA
+- **Power BI** (Desktop version) - Data visualization and dashboard creation
 
 ## Repository Structure
-- `data/` – folder containing raw dataset:
-  - `raw_data.csv` – source data file
-- `sql/` – folder containing SQL scripts:
-  - `data_cleaning.sql` – SQL script for data cleaning
-  - `exploratory_data_analysis.sql` – SQL queries for exploratory data analysis
-- `powerbi/` – folder with Power BI dashboard file:
-  - `report.pbix` – fully interactive report file
-- `README.md` – project documentation
+- `data/` - folder containing raw dataset:
+  - `raw_data.csv` - source data file
+- `sql/` - folder containing SQL scripts:
+  - `data_cleaning.sql` - SQL script for data cleaning
+  - `exploratory_data_analysis.sql` - SQL queries for exploratory data analysis
+- `powerbi/` - folder with Power BI dashboard file:
+  - `report.pbix` - fully interactive report file
+- `README.md` - project documentation
+
+This project was conducted as part of my portfolio to demonstrate SQL data cleaning, exploratory analysis, and visualization skills.
 

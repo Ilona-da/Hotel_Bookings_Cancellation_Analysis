@@ -8,11 +8,11 @@ The analysis process went through several stages: from data mining, through iden
 
 ## Data Preparation (SQL)
 
-### 1. Data Source & Initial Challenges
+### Data Source & Initial Challenges
 
 The original data was provided in CSV format. During the import process into SQL Server, I encountered some issues, which led me to create a **staging table** (`reservations_staging`) for raw data ingestion. This allowed me to check, debug and control the data more effectively before shaping it into a refined, analysis-ready format.
 
-### 2. Cleaning & Transformation
+### Cleaning & Transformation
 
 I created a new table (`reservations_refined`) and populated it using SQL `INSERT` and `UPDATE` operations, ensuring:
 - Consistent data types (`TINYINT`, `BIT`, `DECIMAL`, etc.)
@@ -26,7 +26,7 @@ This phase focused on:
 - Making the dataset easier to query and analyze in the next steps
 - Preparing it for smooth integration with Power BI
 
-### 3. Exploratory Data Analysis
+## Exploratory Data Analysis (SQL)
 
 The EDA phase was organized into thematic steps to simulate a structured analytics workflow. Already at this stage, initial insights began to emerge - including patterns in seasonality, guest behavior, pricing, and cancellations. Each step focused on a specific area of the dataset to uncover trends, spot inconsistencies, and prepare the data for deeper analysis and visualization in Power BI:
 
@@ -48,7 +48,7 @@ The EDA phase was organized into thematic steps to simulate a structured analyti
 
 - **Feature engineering** - Created bins and helper columns (e.g. price bands, stay length, guest count) to support flexible segmentation and clear visuals in Power BI.
 
-### 4. Dashboard & Final Insights (Power BI)
+## Dashboard & Final Insights (Power BI)
 
 The refined dataset was connected to Power BI to create a clear, interactive dashboard structured into six thematic pages:
 

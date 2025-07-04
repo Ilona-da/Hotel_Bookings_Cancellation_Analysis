@@ -163,7 +163,7 @@ WHERE
   no_of_adults = 0
   OR (no_of_week_nights = 0 AND no_of_weekend_nights = 0);
 
-/* Review full cleaned table (remove in production) */
+/* Review full cleaned table */
 SELECT * 
 FROM reservations_cleaned;
 

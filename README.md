@@ -1,27 +1,33 @@
 # Hotel Cancellations Trends Analysis
 
 ## Project Overview
-This project focuses on data preparation, exploratory data analysis (EDA), and visualization based on a hotel reservations dataset sourced from Kaggle. The goal is to simulate a real-world business analysis scenario, starting with raw data and moving through structured cleaning and insights generation using SQL and Power BI.
+This portfolio project simulates a real-world business analytics scenario using hotel reservation data from Kaggle. The goal was to explore the reasons behind booking cancellations and uncover actionable insights that could help reduce them.
 
-The analysis process went through several stages: from data mining, through identifying the reasons for bookings cancellation, to drawing operational conclusions and proposing specific actions to prevent those cancellations. 
+The full process included:
+
+- Data preparation and cleaning using SQL
+- Exploratory analysis to understand patterns in guest behavior
+- Interactive dashboard creation in Power BI
+- Final recommendations for operational improvements
 
 ## Data Preparation (SQL)
 
-### Data Source & Initial Challenges
-The original data was provided in CSV format. During the import process into SQL Server, I encountered some issues, which led me to create a **staging table** (`reservations_staging`) for raw data ingestion. This allowed me to check, debug and control the data more effectively before shaping it into a refined, analysis-ready format.
+### Source & Initial Setup
+The dataset was provided in CSV format. To handle import issues and validate raw input, I first created a staging table (reservations_staging).
+Then I created a refined version (reservations_refined) where I applied proper data types, initial conversions, and consistency checks.
+After identifying 217 low-quality or implausible records (e.g. bookings with zero adults or zero nights), I cloned the data into a new table called reservations_cleaned and removed those rows to ensure analytical quality.
 
 ### Cleaning & Transformation
-I created a new table (`reservations_refined`) and populated it using SQL `INSERT` and `UPDATE` operations, ensuring:
-- Consistent data types (`TINYINT`, `BIT`, `DECIMAL`, etc.)
-- Basic trimming and conversion of categorical and boolean values
-- Casting strings to numeric formats where needed
+Using SQL Server, I:
+- Applied proper data types (TINYINT, BIT, DECIMAL, etc.)
+- Cleaned and standardized categorical values
+- Converted strings to numeric types where needed
 
-Surprisingly, the dataset contained **no NULL values** or obvious dirty data - making the cleaning process fairly light in this case.
+The data surprisingly had no NULLs, which allowed for a smooth transition to the analysis phase.
 
-This phase focused on:
-- Practicing good SQL structure
-- Making the dataset easier to query and analyze in the next steps
-- Preparing it for smooth integration with Power BI
+This stage focused on:
+- Practicing clean SQL coding habits
+- Structuring the dataset for analysis and Power BI import
 
 ## Exploratory Data Analysis (SQL)
 The EDA phase was organized into thematic steps to simulate a structured analytics workflow. Already at this stage, initial insights began to emerge - including patterns in seasonality, guest behavior, pricing, and cancellations. Each step focused on a specific area of the dataset to uncover trends, spot inconsistencies, and prepare the data for deeper analysis and visualization in Power BI:
@@ -34,7 +40,7 @@ The EDA phase was organized into thematic steps to simulate a structured analyti
 
 - **Revenue and pricing** - Examined room rates across segments, seasons, and room types.
 
-- **Operational metrics** - Looked into parking demand, family size, and guest composition.
+- **Operational metrics** - Looked into parking demand, guest's group size.
 
 - **Lead time dynamics** - Segmented lead times into ranges and prepared cancellation risk indicators.
 
@@ -45,7 +51,7 @@ The EDA phase was organized into thematic steps to simulate a structured analyti
 - **Feature engineering** - Created bins and helper columns (e.g. price bands, stay length, guest count) to support flexible segmentation and clear visuals in Power BI.
 
 ## Dashboard & Final Insights (Power BI)
-The refined dataset was connected to Power BI to create a clear, interactive dashboard structured into six thematic pages:
+The cleaned dataset was used to build a six-page Power BI report:
 
 - **OVERVIEW** - A high-level summary of bookings, cancellations, revenue loss, and recovery.
 
@@ -53,17 +59,19 @@ The refined dataset was connected to Power BI to create a clear, interactive das
 
 - **GUESTS** - Guest segmentation, behavior patterns, and cancellation likelihood across groups.
 
-- **SERVICES** - Preferences regarding room types, meal plans, and add-ons like parking or special requests.
+- **SERVICES** - Preferences regarding room types, meal plans, and add-ons like special requests.
 
 - **FINANCES** - Analysis of room pricing, revenue drivers, and financial impact of cancellations.
 
-- **INSIGHTS** - key insights with recommendations on how to possibly reduce cancellations and recover value.
+- **INSIGHTS** - Key insights with recommendations on how to possibly reduce cancellations and recover value.
 
 The final page brings together all findings and translates them into clear operational suggestions, highlighting which guest profiles, booking conditions, and pricing strategies are most associated with cancellations and how they can be better managed.
 
+## View interactive report: [LINK]
+
 ## Tools Used
 - **Microsoft SQL Server** - Data cleaning and EDA
-- **Power BI** (Desktop version) - Data visualization and dashboard creation
+- **Power BI Desktop** - Dashboard creation & storytelling
 
 ## Repository Structure
 - `data/` - folder containing raw dataset:

@@ -3,7 +3,7 @@
 */
 
 SELECT COUNT(*) 
-FROM reservations_refined
+FROM reservations_cleaned
 WHERE booking_status = 'Canceled';
 /* Around 1/3 of all reservations was canceled */
 

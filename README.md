@@ -40,7 +40,7 @@ The final report includes six themed pages, each exploring booking and cancellat
 
 While creating each page, I practiced structuring the dashboard as a data story - to make insights easier to follow and act on.
 
-👉 **View the live dashboard**: [link here]
+👉 ## View the live dashboard: [link here]
 
 Here is preview of each page:
 

@@ -42,6 +42,20 @@ While creating each page, I practiced structuring the dashboard as a data story 
 
 **View the live dashboard**: [link here]
 
+Here is preview of each page:
+
+| Page 1 | Page 2 |
+|--------|--------|
+| ![Page 1](powerbi/preview/report-1.png) | ![Page 2](powerbi/preview/report-2.png) |
+
+| Page 3 | Page 4 |
+|--------|--------|
+| ![Page 3](powerbi/preview/report-3.png) | ![Page 4](powerbi/preview/report-4.png) |
+
+| Page 5 | Page 6 |
+|--------|--------|
+| ![Page 5](powerbi/preview/report-5.png) | ![Page 6](powerbi/preview/report-6.png) |
+
 ## Tools & Skills Used  
 - **SQL Server** - data cleaning and exploratory analysis  
 - **Power BI Desktop** - interactive report design, visual storytelling  
@@ -54,5 +68,6 @@ While creating each page, I practiced structuring the dashboard as a data story 
   - `exploratory_data_analysis.sql` - SQL queries for exploratory data analysis
 - `powerbi/` - folder with Power BI file:
   - `report.pbix` - fully interactive report file
+  - `preview/` - image preview of each report page
 - `README.md` - project documentation
 

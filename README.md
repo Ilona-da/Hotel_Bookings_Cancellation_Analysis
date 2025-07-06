@@ -45,12 +45,15 @@ While creating each page, I practiced structuring the dashboard as a data story 
 Here is preview of each page:
 
 | Page 1 | Page 2 |
+|--------|--------|
 | ![Page 1](powerbi/preview/report-1.png) | ![Page 2](powerbi/preview/report-2.png) |
 
 | Page 3 | Page 4 |
+|--------|--------|
 | ![Page 3](powerbi/preview/report-3.png) | ![Page 4](powerbi/preview/report-4.png) |
 
 | Page 5 | Page 6 |
+|--------|--------|
 | ![Page 5](powerbi/preview/report-5.png) | ![Page 6](powerbi/preview/report-6.png) |
 
 ## Tools & Skills Used  

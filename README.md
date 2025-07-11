@@ -41,7 +41,7 @@ The final report includes six themed pages, each exploring booking and cancellat
 While creating each page, I practiced structuring the dashboard as a data story - to make insights easier to follow and act on.
 
 ## View the live dashboard: 
-👉 [live dashboard link here](https://tinyurl.com/25p84zuj)
+👉 [live dashboard link here](https://app.powerbi.com/view?r=eyJrIjoiZmFlM2MwMGItYjhlNi00MDU5LWE5MmUtNzc3ZjI0ODNkNmEwIiwidCI6IjE1YzIyNjQ2LTU5M2YtNDMxOC04NTYzLTMwZmU5ZmRmMDdjZSJ9)
 
 Here is preview of each page:
 
